@@ -1,0 +1,11 @@
+    - debug:
+        msg: "message ==={{val}}"
+    #- debug:
+     #   msg: "{{hostval}}"
+    - name: ensure nginx is at the latest version
+      apt: name=nginx state=latest
+    - name: Copy the custom index file
+      copy: src=./index.html dest=/var/www/html/index.nginx-debian.html
+      notify: restart nginx
+    - name: start nginx
+      service: name=nginx state=started

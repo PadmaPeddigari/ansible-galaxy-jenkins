@@ -1,0 +1,15 @@
+---
+- hosts: webservers
+  become: true
+  become_user: root
+  tasks:
+    - name: Instll tomcat package
+      apt: name=tomcat state=latest
+    - name: start tomcat service
+      service: name=tomcat state=started
+    - name: DEploy War File
+      copy: src=sample.war  dest=/usr/share/tomcat/webapps
+      notify: restart tomcat
+  handlers:
+    - name: restart tomcat
+      service: name=tomcat state=restarted  

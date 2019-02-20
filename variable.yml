@@ -1,0 +1,8 @@
+---
+- hosts: webservers
+  vars:
+    val: value_samefile
+  tasks:
+   - name: print the varibale
+     debug: 
+       msg: "{{val}}"

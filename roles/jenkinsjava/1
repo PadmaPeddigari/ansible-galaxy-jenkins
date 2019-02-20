@@ -1,0 +1,25 @@
+---
+ - name: Install apt repository
+   become: true
+   apt: name=software-properties-common state=latest
+ - name: add apt sign key for jenkin org
+   apt-key:
+    url: https://pkg.jenkins.io/debian/jenkins-ci.org.key
+    state: latest
+
+ - name: jenkins list   
+   apt_repository:
+     repo: deb http://pkg.jenkins.io/debian-stable binary/
+     state: present
+     filename: 'jenkins.list'
+
+- name: Install jenkins  
+  become: yes
+  apt: name={{item}} state=latest
+  with_items:
+    - jenkins
+
+- name: Start service jenkins, if not running
+  service:
+    name: jenkins
+    state: started 
